@@ -17,6 +17,10 @@ function App() {
     id: 1,
   });
 
+  const handleStudent =(e) => {
+    setStudent(e.target.value);
+  }
+
   // arrow function
   const updateStudentName = () => {
     setStudent((student) => ({ ...student, name: "Serey" }));
@@ -31,8 +35,8 @@ function App() {
       const newId = Date.now();
       const newTodo = { id: newId, title: todoValue, isDone: false };
       addTodo([...todos, newTodo]);
+      setTodoValue("");
     }
-    setTodoValue("");
   };
 
   const handleKeyDown = (e) => {
@@ -54,14 +58,22 @@ function App() {
     setTodoValue("");
   }
   const handleRemove = (id) => {
-    const removeTodo = todos.filter(todo => 
-      todo.id !== id
-    );
+    const removeTodo = todos.reduce((acc, todo) => {
+      if (todo.id !== id) {
+        acc.push(todo);
+      }
+      return acc;
+    },[]);
     addTodo(removeTodo);
-  }
+  };
   return (
     <div className="App">
       <p>Student</p>
+      <input
+        type="text"
+        value={student}
+        onChange={handleStudent}
+      />
       <div>Id: {student.id}</div>
       <div>Name: {student.name}</div>
       <div>Age: {student.age}</div>
@@ -90,4 +102,4 @@ function App() {
   );
 }
 
-export default App;
+export default App; 
